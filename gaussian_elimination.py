@@ -89,7 +89,7 @@ root.title('linalg-apps: Gaussian Elimination')
 TkMatrix(root, command=update).pack()
 
 steps_view = ScrollableFrame(root)
-steps_view.pack()
+steps_view.pack(pady=10)
 
 Button(root, text='Quit', command=root.quit).pack()
 root.mainloop()
