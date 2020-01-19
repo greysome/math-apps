@@ -65,7 +65,10 @@ def update(value):
 
 root = Tk()
 root.title('math-apps: Greshgorin Circles')
-TkMatrix(root, command=update).pack()
+TkMatrix(
+    root, command=update,
+    assertions=[(lambda value: value.shape[0] == value.shape[1], 'non-square matrix')]
+).pack()
 
 fig = Figure(figsize=(5,5))
 ax = fig.add_subplot(111)
