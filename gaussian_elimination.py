@@ -1,7 +1,7 @@
 from tkinter import *
 from tk_matrix import TkMatrix
 from tk_matplotlib import *
-from scrollable_frame import ScrollableFrame
+from tk_scrollable_frame import ScrollableFrame
 import numpy as np
 
 root = scrollbar = steps_view = None
