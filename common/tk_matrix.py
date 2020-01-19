@@ -8,10 +8,10 @@ import numpy as np
 class TkEditMatrixDialog(object):
     DEFAULT_SEP = ','
 
-    def __init__(self, parent, value):
+    def __init__(self, parent, value, assertions=[]):
         top = self.top = Toplevel(parent)
-
         self.value = value
+        self.assertions = assertions
 
         self.error = Label(top, text='')
         self.error.grid(row=0, columnspan=2)
@@ -77,12 +77,19 @@ class TkEditMatrixDialog(object):
             self.error['text'] = 'ERROR: could not convert to numpy array'
             return
 
+        for a in self.assertions:
+            cond, error_text = a
+            if not cond(self.value):
+                self.error['text'] = 'ERROR: ' + error_text
+                return
+
         self.top.destroy()
 
 class TkMatrix(Frame):
-    def __init__(self, parent, value=None, command=None, editable=True):
+    def __init__(self, parent, value=None, command=None, editable=True, assertions=[]):
         Frame.__init__(self, parent)
         self.command = command
+        self.assertions = assertions
 
         if value is None:
             self.rows = self.cols = 3
@@ -111,7 +118,7 @@ class TkMatrix(Frame):
                 self.tmp_labels.append(label)
 
     def edit_matrix(self):
-        dialog = TkEditMatrixDialog(self, self.value)
+        dialog = TkEditMatrixDialog(self, self.value, assertions=self.assertions)
         self.value = dialog.value
         self.rows, self.cols = self.value.shape
 
