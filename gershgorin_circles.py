@@ -1,6 +1,6 @@
 from tkinter import *
-from tk_matrix import TkMatrix
-from tk_matplotlib import *
+from common.tk_matrix import TkMatrix
+from common.tk_matplotlib import *
 import numpy as np
 
 canvas = root = fig = ax = None
