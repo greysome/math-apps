@@ -85,7 +85,7 @@ def update(value):
             row += 1
 
 root = Tk()
-root.title('linalg-apps: Gaussian Elimination')
+root.title('math-apps: Gaussian Elimination')
 TkMatrix(root, command=update).pack()
 
 steps_view = ScrollableFrame(root)

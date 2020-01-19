@@ -64,7 +64,7 @@ def update(value):
     canvas.draw()
 
 root = Tk()
-root.title('linalg-apps: Greshgorin Circles')
+root.title('math-apps: Greshgorin Circles')
 TkMatrix(root, command=update).pack()
 
 fig = Figure(figsize=(5,5))

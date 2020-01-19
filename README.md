@@ -1,4 +1,4 @@
-# linalg-apps
+# math-apps
 ## Gaussian Elimination
 ![Gaussian elimination](./pics/gaussian_elimination.png)
 
