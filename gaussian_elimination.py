@@ -25,6 +25,15 @@ def get_leading_idx(row):
     except IndexError:
         return -1
 
+def get_trailing_idx(row):
+    '''
+    Return index of last nonzero entry of row, or -1 if there are none.
+    '''
+    try:
+        return np.where(row != 0)[0][-1]
+    except IndexError:
+        return -1
+
 def update(value):
     global steps_view, step_widgets
     row = 0
@@ -86,22 +95,17 @@ def update(value):
             if subtrahend >= n_cols:
                 break
 
-            # There is a zero entry on the main diagonal, matrix
-            # cannot be row reduced
-            if value[subtrahend][subtrahend] == 0:
-                break
-
-            # Subtract each row such that the entry on the main diagonal is the
-            # Matrix cannot be reduced to reduced row echoleon form
-            if value[subtrahend][subtrahend] == 0:
-                break
-
-            # Subtract away as many entries of the row following the entry on the main diagonal
-            scale_factor = value[minuend][subtrahend] / value[subtrahend][subtrahend]
-            value[minuend] -= scale_factor * value[subtrahend]
-
-            add_step(row, f'R{minuend+1} ← R{minuend+1} - {scale_factor} * R{subtrahend+1}', value)
-            row += 1
+            trailing_idx = get_trailing_idx(value[subtrahend])
+            if trailing_idx != -1:
+                '''
+                Consider the case [[1,1,1,5],[0,0,1,2]]:
+                The trailing entry of the 2nd row is 2, so we subtract
+                the 1st row by 5/2.
+                '''
+                scale_factor = value[minuend][trailing_idx] / value[subtrahend][trailing_idx]
+                value[minuend] -= scale_factor * value[subtrahend]
+                add_step(row, f'R{minuend+1} ← R{minuend+1} - {scale_factor} * R{subtrahend+1}', value)
+                row += 1
 
 root = Tk()
 root.title('math-apps: Gaussian Elimination')
