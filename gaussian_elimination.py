@@ -61,13 +61,14 @@ def update(value):
                 else:
                     break
 
-            # Subtract each row such that the entry on the main diagonal is the
-            # first nonzero entry
-            scale_factor = value[minuend][subtrahend] / value[subtrahend][subtrahend]
-            value[minuend] -= scale_factor * value[subtrahend]
-
-            add_step(row, f'R{minuend+1} ← R{minuend+1} - {scale_factor} * R{subtrahend+1}', value)
-            row += 1
+            # If it is 0, then the step is essentially redundant
+            if value[minuend][subtrahend] != 0:
+                # Subtract each row such that the entry on the main diagonal is the
+                # first nonzero entry
+                scale_factor = value[minuend][subtrahend] / value[subtrahend][subtrahend]
+                value[minuend] -= scale_factor * value[subtrahend]
+                add_step(row, f'R{minuend+1} ← R{minuend+1} - {scale_factor} * R{subtrahend+1}', value)
+                row += 1
 
     # Scale all rows such that leading value is 1
     for i in range(n_rows):
@@ -94,10 +95,12 @@ def update(value):
                 The trailing entry of the 2nd row is 2, so we subtract
                 the 1st row by 5/2.
                 '''
-                scale_factor = value[minuend][trailing_idx] / value[subtrahend][trailing_idx]
-                value[minuend] -= scale_factor * value[subtrahend]
-                add_step(row, f'R{minuend+1} ← R{minuend+1} - {scale_factor} * R{subtrahend+1}', value)
-                row += 1
+                # If it is 0, then the step is essentially redundant
+                if value[minuend][trailing_idx] != 0:
+                    scale_factor = value[minuend][trailing_idx] / value[subtrahend][trailing_idx]
+                    value[minuend] -= scale_factor * value[subtrahend]
+                    add_step(row, f'R{minuend+1} ← R{minuend+1} - {scale_factor} * R{subtrahend+1}', value)
+                    row += 1
 
 root = Tk()
 root.title('math-apps: Gaussian Elimination')
