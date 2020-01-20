@@ -25,6 +25,19 @@ def update(value):
         i.destroy()
     step_widgets = []
 
+    # Swap rows so that rows with nonzero first entry come first
+    for i in range(n_rows):
+        if value[i][0] == 0:
+            # Find the first row from the back with nonzero first
+            # entry to swap with
+            for j in range(n_rows-1, i, -1):
+                if value[j][0] != 0:
+                    # Swap rows
+                    value[[i, j]] = value[[j, i]]
+                    add_step(row, f'R{i+1} ↔ R{j+1}', value)
+                    row += 1
+                    break
+
     # Transform to upper triangular matrix
     for subtrahend in range(n_rows):
         for minuend in range(subtrahend+1, n_rows):
