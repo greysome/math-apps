@@ -67,10 +67,10 @@ def update(value):
             pass
         else:
             scale_factor = value[i][leading_idx]
-            value[i] /= scale_factor
-
-            add_step(row, f'R{i+1} ← R{i+1} / {scale_factor}', value)
-            row += 1
+            if scale_factor != 1:
+                value[i] /= scale_factor
+                add_step(row, f'R{i+1} ← R{i+1} / {scale_factor}', value)
+                row += 1
 
     # Subtract away trailing row entries
     for minuend in range(n_rows-2, -1, -1):
