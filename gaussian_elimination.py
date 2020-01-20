@@ -16,6 +16,15 @@ def add_step(row, description, value):
     matrix.grid(row=row, column=1, pady=10, padx=5)
     step_widgets.extend([label, matrix])
 
+def get_leading_idx(row):
+    '''
+    Return index of first nonzero entry of row, or -1 if there are none.
+    '''
+    try:
+        return np.where(row != 0)[0][0]
+    except IndexError:
+        return -1
+
 def update(value):
     global steps_view, step_widgets
     row = 0
@@ -61,11 +70,8 @@ def update(value):
 
     # Scale all rows such that leading value is 1
     for i in range(n_rows):
-        try:
-            leading_idx = np.where(value[i] != 0)[0][0]
-        except IndexError:
-            pass
-        else:
+        leading_idx = get_leading_idx(value[i])
+        if leading_idx != -1:
             scale_factor = value[i][leading_idx]
             if scale_factor != 1:
                 value[i] /= scale_factor
