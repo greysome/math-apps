@@ -3,7 +3,6 @@ from common.tk_matrix import TkMatrix
 from common.tk_matplotlib import *
 from common.tk_scrollable_frame import ScrollableFrame
 import numpy as np
-
 root = scrollbar = steps_view = None
 step_widgets = []
 
@@ -43,19 +42,6 @@ def update(value):
         i.destroy()
     step_widgets = []
 
-    # Swap rows so that rows with nonzero first entry come first
-    for i in range(n_rows):
-        if value[i][0] == 0:
-            # Find the first row from the back with nonzero first
-            # entry to swap with
-            for j in range(n_rows-1, i, -1):
-                if value[j][0] != 0:
-                    # Swap rows
-                    value[[i, j]] = value[[j, i]]
-                    add_step(row, f'R{i+1} ↔ R{j+1}', value)
-                    row += 1
-                    break
-
     # Transform to upper triangular matrix
     for subtrahend in range(n_rows):
         for minuend in range(subtrahend+1, n_rows):
@@ -64,10 +50,16 @@ def update(value):
             if subtrahend >= n_cols:
                 break
 
-            # There is a zero entry on the main diagonal, matrix
-            # cannot be row reduced
+            # Attempt to swap with some row such that row[subtrahend] != 0
             if value[subtrahend][subtrahend] == 0:
-                break
+                for i in range(subtrahend+1, n_rows):
+                    if value[i][subtrahend] != 0:
+                        value[[subtrahend, i]] = value[[i, subtrahend]]
+                        add_step(row, f'R{subtrahend+1} ↔ R{i+1}', value)
+                        row += 1
+                        break
+                else:
+                    break
 
             # Subtract each row such that the entry on the main diagonal is the
             # first nonzero entry
