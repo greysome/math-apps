@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.figure import Figure
+from math import ceil, floor
 
 def centre_splines(ax):
     ax.spines['left'].set_position('zero')
@@ -33,10 +34,10 @@ def get_centering_bounds(x, y):
     if offset_y == 0:
         offset_y = 1
 
-    x_low = min(x) - offset_x
-    x_high = max(x) + offset_x
-    y_low = min(y) - offset_y
-    y_high = max(y) + offset_y
+    x_low = floor(min(x) - offset_x)
+    x_high = ceil(max(x) + offset_x)
+    y_low = floor(min(y) - offset_y)
+    y_high = ceil(max(y) + offset_y)
 
     # Ensure origin is at the center
     x_max_abs = max(abs(x_low), abs(x_high))
