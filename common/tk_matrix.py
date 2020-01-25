@@ -86,6 +86,8 @@ class TkEditMatrixDialog(object):
         self.top.destroy()
 
 class TkMatrix(Frame):
+    MAX_SIZE = 15
+
     def __init__(self, parent, value=None, command=None, editable=True, assertions=[]):
         Frame.__init__(self, parent)
         self.command = command
@@ -110,12 +112,17 @@ class TkMatrix(Frame):
         self.update_matrix_view()
 
     def update_matrix_view(self):
-        for i in range(self.rows):
-            for j in range(self.cols):
-                # '%g' for pretty-printing
-                label = Label(self.matrix_view, text='%g' % self.value[i][j])
-                label.grid(row=i, column=j)
-                self.tmp_labels.append(label)
+        if self.rows > TkMatrix.MAX_SIZE or self.cols > TkMatrix.MAX_SIZE:
+            label = Label(self.matrix_view, text='Too big')
+            label.grid(row=1, column=1)
+            self.tmp_labels.append(label)
+        else:
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    # '%g' for pretty-printing
+                    label = Label(self.matrix_view, text='%g' % self.value[i][j])
+                    label.grid(row=i, column=j)
+                    self.tmp_labels.append(label)
 
     def edit_matrix(self):
         dialog = TkEditMatrixDialog(self, self.value, assertions=self.assertions)
