@@ -72,7 +72,6 @@ TkMatrix(
 
 fig = Figure(figsize=(5,5))
 ax = fig.add_subplot(111)
-ax.autoscale(tight=True)
 centre_splines(ax)
 canvas = draw_mpl_fig(root, fig)
 
