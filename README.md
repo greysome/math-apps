@@ -7,3 +7,6 @@
 
 ## PCA
 ![PCA](./pics/pca.png)
+
+## PageRank
+![PageRank](./pics/pagerank.png)
