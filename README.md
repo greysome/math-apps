@@ -10,3 +10,6 @@
 
 ## PageRank
 ![PageRank](./pics/pagerank.png)
+
+## Boundary spectra
+![Boundary spectra](./pics/boundary_spectra.png)
